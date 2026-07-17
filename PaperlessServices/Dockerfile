@@ -1,5 +1,5 @@
 # .NET 8.0 SDK for building the application
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:89ce6291bde9acdf59594e79fb8277c6d84c46e4b1f5bf126a4f18766e4bd597 AS build-env
 ARG BUILD_CONFIG=Release
 WORKDIR /App
 
@@ -13,7 +13,7 @@ RUN dotnet restore "PaperlessServices/PaperlessServices.csproj"
 RUN dotnet publish -c $BUILD_CONFIG -r linux-x64 --no-self-contained -o out "PaperlessServices/PaperlessServices.csproj"
 
 # .NET 8.0 ASP.NET runtime as the base image for the final stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:9822a6201c64c9f38b8a190832a7ae21cd30150d509b3ea170fd83b4f4e6166a
 WORKDIR /App
 COPY --from=build-env /App/out .
 
